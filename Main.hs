@@ -15,6 +15,6 @@ deleteNode path = do
     isDir <- doesDirectoryExist path
     if isDir
     then
-        removeDirectory path
+        removeDirectoryRecursive path
     else
         removeFile path
