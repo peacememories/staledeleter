@@ -27,7 +27,7 @@ getAccTime path = do
     then
         getRealDirContents path >>=
         sequence . (map getAccTime) >>=
-        return . maximumFallback
+        return . maximum . listFallback 0
     else
         getFileStatus path >>= return . accessTime
 
@@ -41,6 +41,6 @@ getRealDirContents :: FilePath -> IO [FilePath]
 getRealDirContents path = getDirectoryContents path >>=
                           return . (map (path</>)) . (filter (/="..")) . (filter (/="."))
 
-maximumFallback :: (Ord a, Num a) => [a] -> a
-maximumFallback list@(x:_) = maximum list
-maximumFallback [] = 0
+listFallback :: a -> [a] -> [a]
+listFallback x [] = [x]
+listFallback _ xs = xs
