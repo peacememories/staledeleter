@@ -1,4 +1,5 @@
 import Control.Monad
+import Control.Exception
 import System.Environment
 import System.Directory
 
@@ -11,10 +12,11 @@ main = do
     sequence $ map deleteNode files
 
 deleteNode :: FilePath -> IO ()
-deleteNode path = do
+deleteNode path = catch (do
     isDir <- doesDirectoryExist path
     if isDir
     then
         removeDirectoryRecursive path
     else
         removeFile path
+    ) ((putStrLn . show) :: (SomeException -> IO ()))
