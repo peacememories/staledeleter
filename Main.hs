@@ -4,6 +4,7 @@ import System.Environment
 import System.Directory
 
 import Lib
+import TimeParse
 
 main = do
     (path:time:_) <- getArgs
