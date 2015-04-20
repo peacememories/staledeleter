@@ -1,13 +1,20 @@
 import Control.Monad
 import System.Environment
 import System.Directory
-import System.PosixCompat.Files
-import System.Posix.Types
 
-main = liftM (!! 0) getArgs >>= putStr
+import Lib
 
-getFileTimes :: FilePath -> IO [(FilePath, EpochTime)]
-getFileTimes path = getDirectoryContents path >>= 
+main = do
+    (path:time:_) <- getArgs
+    files <- getOld (read time) path
+    print files
+    sequence $ map deleteNode files
 
-getAccTime :: FilePath -> IO EpochTime
-getAccTime file = getFileStatus file >>= return . accessTime
+deleteNode :: FilePath -> IO ()
+deleteNode path = do
+    isDir <- doesDirectoryExist path
+    if isDir
+    then
+        removeDirectory path
+    else
+        removeFile path
