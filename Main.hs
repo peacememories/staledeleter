@@ -5,12 +5,17 @@ import System.Directory
 
 import Lib
 import TimeParse
+import Text.Parsec
 
 main = do
     (path:time:_) <- getArgs
-    files <- getOld (read time) path
-    print files
-    sequence $ map deleteNode files
+    case (parse timeParser "Input" time) of 
+        Right t -> do
+            files <- getOld t path
+            print files
+            sequence $ map deleteNode files
+            return ()
+        Left error -> putStr $ show error
 
 deleteNode :: FilePath -> IO ()
 deleteNode path = catch (do
