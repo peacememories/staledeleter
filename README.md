@@ -23,4 +23,10 @@ staledeleter <directory> <time>
 ```
 
 * `directory` - Directory to scan
-* `time` - Minimum age of a file to be deleted
+* `time` - Time in seconds, minutes, etc.
+    
+    Example:
+    
+    ```
+    4 days 2 hours 3 seconds
+    ```
