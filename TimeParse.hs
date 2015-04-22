@@ -20,7 +20,7 @@ correctionFactor Weeks = correctionFactor Days * 7
 
 timeParser :: GenParser Char st EpochTime
 timeParser = do
-    times <- sepBy timeEntity (char ' ')
+    times <- sepBy1 timeEntity (char ' ')
     return $ foldr (+) 0 times
 
 timeEntity :: GenParser Char st EpochTime
