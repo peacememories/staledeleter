@@ -5,7 +5,7 @@ module TimeParse (
 import Text.ParserCombinators.Parsec
 import Text.Parsec.Prim
 import Text.Parsec.Combinator
-import Control.Applicative hiding ((<|>))
+import Control.Applicative hiding ((<|>), optional)
 
 import System.Posix.Types
 
@@ -26,7 +26,7 @@ timeParser = do
 timeEntity :: GenParser Char st EpochTime
 timeEntity = do
     num <- integer
-    char ' '
+    optional $ char ' '
     factor <- correctionFactor <$> timeUnit
     return $ fromIntegral $ num * factor
 
